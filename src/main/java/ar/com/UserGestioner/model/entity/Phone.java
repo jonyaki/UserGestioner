@@ -1,8 +1,23 @@
-package ar.com.UserGestioner.model.enity;
+package ar.com.UserGestioner.model.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "phone")
 public class Phone {
+	@Id
 	long number;
+	
 	long cityCode;
+	
+	@ManyToOne
+	User user;
+	
 	String contryCode;
 	
 	public long getNumber() {
