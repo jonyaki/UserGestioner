@@ -2,6 +2,8 @@ package ar.com.UserGestioner.service.impl;
 
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import ar.com.UserGestioner.repository.UserRepository;
 import ar.com.UserGestioner.service.UserService;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -26,9 +29,13 @@ public class UserServiceImpl implements UserService {
 	public User buildUser(UserRequest userRequest) {
 		return new UserBuilder().widthName(userRequest.getName()).widthPassword(userRequest.getPassword())
 				.widthPhones(userRequest.getPhones().stream()
-						.map((phone) -> new PhoneBuilder().widthNumber(phone.getNumber())
-								.widthCityCode(phone.getCityCode()).widthContryCode(phone.getContryCode()).build())
-						.collect(Collectors.toList()))
+						.map(phone -> 
+							new PhoneBuilder()
+								.widthNumber(phone.getNumber())
+								.widthCityCode(phone.getCityCode())
+								.widthContryCode(phone.getContryCode())
+								.build()
+							).collect(Collectors.toList()))
 				.widthEmail(userRequest.getEmail()).build();
 	}
 
