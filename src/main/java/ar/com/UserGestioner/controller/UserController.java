@@ -21,13 +21,11 @@ public class UserController {
 	
 	@GetMapping(value= "/echo")
 	public ResponseEntity<String> echo() {
-		
 		return ResponseEntity.ok("Todo Bien");
-
 	}
+
 	@PostMapping(value = "/sign-up")
 	public ResponseEntity<UserResponse> singUp(@RequestBody UserRequest userRequest) {
-		
 		UserResponse userResponse = null;
 		userService.singUp(userRequest);
 		return ResponseEntity.ok(userResponse);
