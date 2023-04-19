@@ -6,7 +6,7 @@ public class UserRequest {
 	String name;
 	String email;
 	String password;
-	List<PhoneRequest> pones;
+	List<PhoneRequest> phones;
 	
 	public String getName() {
 		return name;
@@ -26,11 +26,11 @@ public class UserRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<PhoneRequest> getPones() {
-		return pones;
+	public List<PhoneRequest> getPhones() {
+		return phones;
 	}
-	public void setPones(List<PhoneRequest> pones) {
-		this.pones = pones;
+	public void setPhones(List<PhoneRequest> phones) {
+		this.phones = phones;
 	}
 	
 	
