@@ -1,6 +1,7 @@
 package ar.com.UserGestioner.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,8 @@ import ar.com.UserGestioner.model.request.UserRequest;
 import ar.com.UserGestioner.model.response.UserResponse;
 import ar.com.UserGestioner.repository.UserRepository;
 import ar.com.UserGestioner.service.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 @Transactional
@@ -59,6 +62,7 @@ public class UserServiceImpl implements UserService {
 				.widthLastLogin(user.getLastLogin())
 				.widthIsActive(user.getIsActive())
 				.widthId(user.getId())
+				.widthToken(generateToken(user.getName()))
 				.build();
 	}
 	public void persist(User user) {
@@ -70,5 +74,13 @@ public class UserServiceImpl implements UserService {
 		if(userRepository.existsUserByName(userRequest.getName())) {		
 			throw new BadRequestException("Ya Existe el usuario");
 		}
+	}
+	
+	public String generateToken(String name) {
+		  return Jwts.builder()
+		          .setSubject(name)
+		          .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+		          .signWith(SignatureAlgorithm.HS512, "miSecreto")
+		          .compact();
 	}
 }

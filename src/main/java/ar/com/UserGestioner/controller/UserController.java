@@ -1,5 +1,6 @@
 package ar.com.UserGestioner.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,9 @@ public class UserController {
 		@ApiResponse(code = 400, message = "Error 400", response =Error.class ),
 		@ApiResponse(code=422, message= "Error 422", response =Error.class),
 		@ApiResponse(code = 500, message = "Error 500", response =Error.class) })
-	public ResponseEntity<UserResponse> singUp(@Valid @RequestBody UserRequest userRequest) throws Exception {
+	public ResponseEntity<UserResponse> singUp(@Valid @RequestBody UserRequest userRequest,HttpServletRequest request) throws Exception {
 		UserResponse userResponse = userService.singUp(userRequest);
+		request.getSession().setAttribute("token", userResponse.getToken());
 		return ResponseEntity.ok(userResponse);
 
 	}
