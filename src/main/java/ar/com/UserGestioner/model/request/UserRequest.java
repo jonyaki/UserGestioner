@@ -2,9 +2,16 @@ package ar.com.UserGestioner.model.request;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
 public class UserRequest {
 	String name;
+
+	
+	@Pattern(regexp = "\\b[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]+\\b", message ="Mail mal escrito")
 	String email;
+	
+	@Pattern(regexp ="^(?=(?:\\D*\\d){2}\\D*$)(?=(?:[^A-Z]*[A-Z]){1}[^A-Z]*$)[A-Za-z0-9]{8,12}$", message ="password mal escrito")
 	String password;
 	List<PhoneRequest> phones;
 	

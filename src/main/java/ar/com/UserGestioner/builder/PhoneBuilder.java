@@ -1,17 +1,7 @@
 package ar.com.UserGestioner.builder;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import ar.com.UserGestioner.model.entity.Phone;
 import ar.com.UserGestioner.model.entity.User;
-import ar.com.UserGestioner.model.request.PhoneRequest;
 
 
 public class PhoneBuilder {

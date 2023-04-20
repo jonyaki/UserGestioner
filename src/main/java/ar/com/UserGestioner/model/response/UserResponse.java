@@ -1,13 +1,9 @@
 package ar.com.UserGestioner.model.response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserResponse {
 	private long id;
-	long number;
-	long cityCode;
-	String contryCode;
 	private LocalDateTime created;
 	private LocalDateTime lastLogin;
 	private String token;
@@ -17,24 +13,6 @@ public class UserResponse {
 	}
 	public void setId(long id) {
 		this.id = id;
-	}
-	public long getNumber() {
-		return number;
-	}
-	public void setNumber(long number) {
-		this.number = number;
-	}
-	public long getCityCode() {
-		return cityCode;
-	}
-	public void setCityCode(long cityCode) {
-		this.cityCode = cityCode;
-	}
-	public String getContryCode() {
-		return contryCode;
-	}
-	public void setContryCode(String contryCode) {
-		this.contryCode = contryCode;
 	}
 	public LocalDateTime getCreated() {
 		return created;
