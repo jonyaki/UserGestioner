@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponse singUp(UserRequest userRequest) throws Exception {
-		userExistationValidate(userRequest);
+		checkIfUserExist(userRequest);
 		User user = buildUser(userRequest);
 		persist(user);
 		return buildUserResponse(user);
@@ -70,15 +70,15 @@ public class UserServiceImpl implements UserService {
 		userRepository.flush();
 
 	}
-	public void userExistationValidate(UserRequest userRequest) throws Exception {
-		if(userRepository.existsUserByName(userRequest.getName())) {		
+	public void checkIfUserExist(UserRequest userRequest) throws Exception {
+		if(userRepository.existsUserByEmail(userRequest.getEmail())) {
 			throw new BadRequestException("Ya Existe el usuario");
 		}
 	}
 	
-	public String generateToken(String name) {
+	public String generateToken(String mail) {
 		  return Jwts.builder()
-		          .setSubject(name)
+		          .setSubject(mail)
 		          .setExpiration(new Date(System.currentTimeMillis() + 3600000))
 		          .signWith(SignatureAlgorithm.HS512, "miSecreto")
 		          .compact();
