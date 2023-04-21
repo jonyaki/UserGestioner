@@ -14,7 +14,18 @@ public class UserRequest {
 	@Pattern(regexp ="^(?=(?:\\D*\\d){2}\\D*$)(?=(?:[^A-Z]*[A-Z]){1}[^A-Z]*$)[A-Za-z0-9]{8,12}$", message ="password mal escrito")
 	String password;
 	List<PhoneRequest> phones;
-	
+
+	public UserRequest() {
+		super();
+	}
+
+	public UserRequest(String name, String email, String password, List<PhoneRequest> phones) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.phones = phones;
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ar.com.UserGestioner.Exeptions.BadRequestException;
@@ -27,12 +28,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-
+	@Value("${user.gestioner.token}")
+	private String token;
 	@Override
 	public UserResponse singUp(UserRequest userRequest) throws Exception {
 		checkIfUserExist(userRequest);
 		User user = buildUser(userRequest);
 		persist(user);
+		user = userRepository.getByMail(userRequest.getEmail());
 		return buildUserResponse(user);
 	}
 
@@ -44,15 +47,16 @@ public class UserServiceImpl implements UserService {
 				.widthCreated(LocalDateTime.now())
 				.widthLastLogin(LocalDateTime.now())
 				.widthIsActive(Boolean.TRUE)
-				.widthPhones(userRequest.getPhones().stream()
-						.map(phone -> 
+				.widthPhones(
+						userRequest.getPhones()!=null? userRequest.getPhones().stream()
+						.map(phone ->
 							new PhoneBuilder()
 								.widthNumber(phone.getNumber())
-								
+
 								.widthCityCode(phone.getCityCode())
 								.widthContryCode(phone.getContryCode())
 								.build()
-							).collect(Collectors.toList()))
+							).collect(Collectors.toList()):null)
 				.widthEmail(userRequest.getEmail()).build();
 	}
 	
@@ -80,7 +84,7 @@ public class UserServiceImpl implements UserService {
 		  return Jwts.builder()
 		          .setSubject(mail)
 		          .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-		          .signWith(SignatureAlgorithm.HS512, "miSecreto")
+		          .signWith(SignatureAlgorithm.HS512, "RXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyBFdmFsdWFjaW9uIHRyYWJham8gRXZhbHVhY2lvbiB0cmFiYWpvIEV2YWx1YWNpb24gdHJhYmFqbyA=")
 		          .compact();
 	}
 }
